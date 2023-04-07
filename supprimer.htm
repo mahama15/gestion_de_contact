@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Supprimer des contacts</title>
+  <style>
+    /* Centrer le contenu de la page horizontalement */
+
+
+/* Remplir l'écran verticalement */
+html, body {
+  height: 100%;
+}
+body{
+    background-color: rgba(241, 0, 0, 0.3);
+    
+}
+
+/* Appliquer un arrière-plan blanc */
+
+
+/* Centrer le titre et le texte */
+h2{
+  margin-top: 200px;
+  position: fixed;
+  left: 35%;
+  bottom: 67%;
+  text-decoration: underline;
+  
+  text-align: center;
+  justify-content: center;
+  font-size: 50px;
+  
+}
+
+/* Appliquer un style de liste sans puces */
+ul {
+  list-style: none;
+  margin-bottom: 20px;
+  width: 1000px;
+  justify-content: center;
+  background-color: #ccc;
+  margin-left: 250px;
+}
+
+/* Appliquer une marge et un espacement à la liste des contacts */
+#liste-contacts {
+  margin-top: 240px;
+
+  border: 1px solid #ccc;
+}
+
+/* Appliquer un style aux éléments de liste */
+li {
+    border-bottom: 1px solid black;
+       
+        font-size: 40px;
+}
+
+/* Ajouter les images et le texte */
+#header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 140px;
+  padding: 0 20px;
+  background-color: #333;
+  color: #fff;
+}
+button{
+    text-align: center;
+  justify-content: center;
+  font-size: 50px;
+  position: fixed;
+  left: 35%;
+  bottom: 0px;
+  background: blue;
+
+}
+button:hover{
+    background: rgb(14, 212, 80);
+    color: #fff;
+
+}
+
+#header img {
+  height: 140px;
+}
+
+#header #logo {
+  font-size: 50px;
+  font-weight: bold;
+}
+
+#header #titre {
+  font-size: 20px;
+  margin: 0;
+}
+#header #titre {
+  font-size: 20px;
+  margin: 0;
+  flex-grow: 1;
+  text-align: center;
+}
+p{
+    position: fixed;
+    bottom: 490px;
+    font-size: 60px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-decoration: underline;
+}
+
+
+  </style>
+</head>
+<body>
+    <div id="header">
+        <img src="maroc.jpg" alt="Image 1">
+        <h1 id="logo">la wilaya de dakhla<br><span style="color: red;">suppression de contact</span></h1>
+        <img src="willaya.jpg" alt="Image 2">
+    </div>
+  <p>Cliquez sur un contact pour le supprimer :</p>
+  <ul id="liste-contacts"></ul>
+  <script>
+    // Récupérer les contacts enregistrés depuis le stockage local
+    const contacts = JSON.parse(localStorage.getItem('contacts')) || [];
+
+    // Afficher la liste des contacts
+    const listeContacts = document.getElementById('liste-contacts');
+    contacts.forEach((contact, index) => {
+      const li = document.createElement('li');
+      li.textContent = `Numero:${contact.numero} -Administration:${contact.administration} -Telephone fixe:${contact.telephone}- telephone GSM:${contact.telephones}`;
+      li.addEventListener('click', () => {
+        if (confirm(`Êtes-vous sûr de vouloir supprimer ${contact.administration} de cette liste de contacts ?`)) {
+          // Supprimer le contact de la liste
+          contacts.splice(index, 1);
+          // Mettre à jour le stockage local
+          localStorage.setItem('contacts', JSON.stringify(contacts));
+          // Recharger la page pour afficher les changements
+          location.reload();
+        }
+      });
+      listeContacts.appendChild(li);
+    });
+  </script>
+</body>
+</html>

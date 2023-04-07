@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Recherche de contacts</title>
+  <style>
+            #header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 140px;
+  padding: 0 20px;
+  background-color: #333;
+  color: #fff;
+}
+        #header img {
+  height: 140px;
+}
+
+#header #logo {
+  font-size: 50px;
+  font-weight: 500;
+}
+
+#header #titre {
+  font-size: 20px;
+  margin: 0;
+}
+#header #titre {
+  font-size: 20px;
+  margin: 0;
+  flex-grow: 1;
+  text-align: center;
+}
+.aside{
+    margin-top: 100px;
+    height: 613px;
+    width: 100%;
+    background-color: darkgoldenrod;
+    text-align: center;
+    justify-content: center;
+    padding-top: 40px;
+}
+body{
+    margin: 0;
+    padding: 0;
+}
+h2{
+    font-size: 40px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-decoration: underline;
+}
+label{
+    font-size: 40px;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
+}
+input{
+    width: 900px;
+    height: 30px;
+}
+button{
+    width: 200px;
+    height: 35px;
+    background-color: #333;
+    color: #fff;
+
+}
+button:hover{
+    background-color:green;
+    color: #e20606;
+}
+ul{
+    padding-top: 30px;
+    font-size: 40px;
+    color: green;
+    background-color: darkgoldenrod;
+}
+li{
+  border-bottom: 1px solid black;
+    list-style: none;
+}
+  </style>
+</head>
+<body>
+    <div id="header">
+        <img src="maroc.jpg" alt="Image 1">
+        <h1 id="logo">la wilaya de dakhla<br><span style="color: green;">Recherche de contacts</span></h1>
+
+        <img src="willaya.jpg" alt="Image 2">
+    </div>
+    <div class="aside">
+        <h2>Recherche de contacts</h2>
+        <label for="input-recherche">tapé le nom de l'administration de votre contact :</label><br>
+        <input type="text" id="input-recherche">
+        <button id="btn-rechercher">Rechercher</button>
+        <ul id="liste-resultats"></ul>
+
+    </div>
+ 
+  <script>
+    // Récupérer les contacts enregistrés depuis le stockage local
+    const contacts = JSON.parse(localStorage.getItem('contacts')) || [];
+
+    // Fonction de recherche de contacts
+    function rechercherContacts(motCle) {
+      // Réinitialiser la liste de résultats
+      const listeResultats = document.getElementById('liste-resultats');
+      listeResultats.innerHTML = '';
+
+      // Parcourir la liste des contacts et ajouter les résultats pertinents à la liste
+      contacts.forEach(contact => {
+        if (contact.numero.toLowerCase().includes(motCle.toLowerCase()) ||
+            contact.administration.toLowerCase().includes(motCle.toLowerCase()) ||
+            contact.telephone.toLowerCase().includes(motCle.toLowerCase()) ||
+            contact.telephones.toLowerCase().includes(motCle.toLowerCase())) {
+          const li = document.createElement('li');
+          li.textContent = `Numero:${contact.numero}- Administration:${contact.administration} -Telephone fixe:${contact.telephone} -telephone GSM:${contact.telephones}`;
+          listeResultats.appendChild(li);
+        }
+      });
+
+      // Afficher un message si aucun résultat n'a été trouvé
+      if (listeResultats.children.length === 0) {
+        const li = document.createElement('li');
+        li.textContent = 'Aucun résultat trouvé.';
+        li.style.color = 'red';
+        listeResultats.appendChild(li);
+      }
+    }
+
+    // Gérer l'événement de clic sur le bouton de recherche
+    const btnRechercher = document.getElementById('btn-rechercher');
+    btnRechercher.addEventListener('click', () => {
+      const inputRecherche = document.getElementById('input-recherche');
+      const motCle = inputRecherche.value.trim();
+      rechercherContacts(motCle);
+    });
+
+    // Gérer l'événement de frappe sur la touche Entrée dans le champ de recherche
+    const inputRecherche = document.getElementById('input-recherche');
+    inputRecherche.addEventListener('keydown', event => {
+      if (event.key === 'Enter') {
+        const motCle = inputRecherche.value.trim();
+        rechercherContacts(motCle);
+      }
+    });
+  </script>
+</body>
+</html>
